@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>首爾：楓之谷冒險旅程</title>
+    <meta name="theme-color" content="#ffffff">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#F97316', // 楓葉橘 (Maple Orange)
+                        secondary: '#1E3A8A', // 首爾藍 (Seoul Navy)
+                        accent: '#FACC15', // 銀杏黃
+                        surface: '#FFFFFF',
+                        bg: '#F8FAFC',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        header: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'float': '0 10px 30px -10px rgba(0, 0, 0, 0.1)',
+                        'nav': '0 -4px 20px rgba(0,0,0,0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #F8FAFC; -webkit-tap-highlight-color: transparent; padding-bottom: 80px; }
+        
+        /* Smooth Scroll & No Scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        html { scroll-behavior: smooth; }
+
+        /* Timeline Design */
+        .timeline-container { position: relative; padding-left: 24px; }
+        .timeline-line { 
+            position: absolute; left: 7px; top: 10px; bottom: -20px; 
+            width: 2px; background: #E2E8F0; border-radius: 2px;
+        }
+        .last-item .timeline-line { display: none; }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; opacity: 0; transform: translateY(10px); }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+        /* Components */
+        .card { @apply bg-white rounded-2xl p-4 shadow-sm border border-slate-100 mb-4 transition-all duration-200 active:scale-[0.98]; }
+        .nav-item { @apply flex flex-col items-center justify-center w-full h-full text-gray-400 transition-colors duration-200; }
+        .nav-item.active { @apply text-primary; }
+        .nav-icon { @apply text-xl mb-1; }
+        .nav-label { @apply text-[10px] font-bold tracking-wider; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md shadow-sm px-4 py-3 flex justify-between items-center transition-all duration-300">
+        <div>
+            <h1 class="text-lg font-black text-secondary tracking-tight flex items-center">
+                <i class="fab fa-canadian-maple-leaf text-primary mr-2"></i>首爾楓之谷冒險
+            </h1>
+            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-0.5">5/15 - 5/18 • Seoul, Korea</p>
+        </div>
+        <div class="flex gap-2">
+            <a href="https://maps.google.com/?q=Seoul" target="_blank" class="w-8 h-8 flex items-center justify-center bg-orange-50 text-orange-600 rounded-full active:bg-orange-100">
+                <i class="fas fa-map-location-dot"></i>
+            </a>
+        </div>
+    </header>
+
+    <main class="px-4 pt-6">
+
+        <div id="view-overview" class="view-section">
+            <div class="bg-secondary rounded-3xl p-6 text-white shadow-float mb-6 fade-in relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 opacity-10 text-9xl">
+                    <i class="fab fa-canadian-maple-leaf"></i>
+                </div>
+                <div class="flex justify-between items-start mb-6 relative z-10">
+                    <div>
+                        <div class="text-blue-200 text-xs font-bold mb-1 tracking-widest">MISSION START</div>
+                        <div class="text-2xl font-black">Ready for Adventure</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 relative z-10">
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10">
+                        <div class="text-[10px] text-blue-200 uppercase font-bold tracking-wider">Base Camp</div>
+                        <div class="font-bold text-sm mt-1">弘大 L7 飯店</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10">
+                        <div class="text-[10px] text-blue-200 uppercase font-bold tracking-wider">Duration</div>
+                        <div class="font-bold text-sm mt-1">4天3夜</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8 fade-in delay-100">
+                <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">導遊生存戰略</h2>
+                <div class="space-y-3">
+                    <div class="card flex gap-4 items-center !mb-2 border-l-4 border-l-primary">
+                        <div class="bg-orange-50 w-10 h-10 rounded-full flex items-center justify-center text-primary shrink-0">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-slate-800">Day 2 樂園攻略</h3>
+                            <p class="text-xs text-gray-500">弘大搭地鐵至蠶室約1小時，楓之谷室內外園區玩好玩滿！</p>
+                        </div>
+                    </div>
+                    <div class="card flex gap-4 items-center !mb-2 border-l-4 border-l-blue-500">
+                        <div class="bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-blue-500 shrink-0">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-slate-800">弘大不夜城</h3>
+                            <p class="text-xs text-gray-500">連三個晚上都在弘大商圈，買累了直接回飯店放戰利品。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card fade-in delay-200">
+                <h3 class="font-bold text-sm mb-4">行程配比</h3>
+                <div class="h-40 relative">
+                    <canvas id="tripChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-itinerary" class="view-section hidden">
+            <div class="flex overflow-x-auto hide-scrollbar gap-2 mb-6 pb-2 sticky top-[56px] z-30 bg-[#F8FAFC]/95 backdrop-blur-sm py-2 -mx-4 px-4">
+                <button onclick="scrollToDay('d1')" class="day-btn active bg-secondary text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-lg">Day 1 (5/15)</button>
+                <button onclick="scrollToDay('d2')" class="day-btn bg-white text-slate-500 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-sm border border-slate-200">Day 2 (5/16)</button>
+                <button onclick="scrollToDay('d3')" class="day-btn bg-white text-slate-500 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-sm border border-slate-200">Day 3 (5/17)</button>
+                <button onclick="scrollToDay('d4')" class="day-btn bg-white text-slate-500 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-sm border border-slate-200">Day 4 (5/18)</button>
+            </div>
+
+            <div class="space-y-8">
+                <div id="d1" class="day-container fade-in">
+                    <h3 class="font-black text-xl mb-4 flex items-center">5/15 <span class="text-sm font-bold text-gray-400 ml-2">飛向首爾、弘大首戰</span></h3>
+                    <div class="timeline-container">
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">12:30 - 18:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">抵達 & 飛行</div>
+                                <div class="text-xs text-gray-500 mt-1 space-y-1">
+                                    <p>• 12:30 抵達松山機場</p>
+                                    <p>• 14:00 - 17:25 在天上飛</p>
+                                    <p>• 17:30 - 18:00 機場入境手續、領取行李</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-blue-600 mb-1">18:00 - 18:30</div>
+                            <div class="card !mb-0 border-l-4 border-blue-500">
+                                <div class="font-bold text-slate-800">Check-in：弘大 L7 飯店</div>
+                                <div class="text-xs text-gray-500 mt-1">放下行李，準備開啟戰鬥模式。</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-orange-400 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-orange-500 mb-1">18:30 - 20:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">晚餐：弘大麻浦牛小城</div>
+                                <div class="text-xs text-gray-500 mt-1">第一餐直上韓式烤牛肉！</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">20:00 - 23:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">逛街：弘大商圈</div>
+                                <div class="text-xs text-gray-500 mt-1">血拼時間。</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 border-l-2 border-transparent">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-red-500 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-red-500 mb-1">23:00 - 24:00</div>
+                            <div class="card !mb-0 bg-red-50 border-red-100">
+                                <div class="font-bold text-red-800"><i class="fas fa-drumstick-bite mr-1"></i>宵夜：橋村炸雞</div>
+                                <div class="text-xs text-red-700 mt-1">外帶回飯店配啤酒完美收尾。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="d2" class="day-container fade-in">
+                    <h3 class="font-black text-xl mb-4 flex items-center">5/16 <span class="text-sm font-bold text-gray-400 ml-2">楓之谷冒險旅程</span></h3>
+                    <div class="timeline-container">
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">09:00 - 10:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">移動：弘大 ➔ 蠶室</div>
+                                <div class="text-xs text-gray-500 mt-1">搭乘地鐵，車程約 1 小時。</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                            <div class="text-xs font-bold text-primary mb-1">10:00 - 12:00</div>
+                            <div class="card !mb-0 border-2 border-orange-200 bg-orange-50">
+                                <div class="font-bold text-orange-800 text-base"><i class="fab fa-canadian-maple-leaf mr-1"></i>楓之谷冒險旅程 (室內樂園)</div>
+                                <div class="text-xs text-orange-700 mt-1">樂天世界探險世界 (Adventure)。</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-slate-500 mb-1">12:00 - 13:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">午餐：School Food / Crystal Palace</div>
+                                <div class="text-xs text-gray-500 mt-1">直接在園區內解決。</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md"></div>
+                            <div class="text-xs font-bold text-primary mb-1">13:00 - 18:00</div>
+                            <div class="card !mb-0 border-2 border-orange-200 bg-orange-50">
+                                <div class="font-bold text-orange-800 text-base"><i class="fab fa-canadian-maple-leaf mr-1"></i>楓之谷冒險旅程 (室外 Magic Island)</div>
+                                <div class="text-xs text-orange-700 mt-1">魔幻島刺激設施玩透透。</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">18:00 - 19:30</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">返回弘大</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 border-l-2 border-transparent">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">19:30 - 24:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">晚餐與夜生活</div>
+                                <div class="text-xs text-gray-500 mt-1 space-y-1">
+                                    <p>• 19:30 晚餐：弘大豬肉湯飯 (暖胃神物)</p>
+                                    <p>• 21:30 弘大商圈續攤</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="d3" class="day-container fade-in">
+                    <h3 class="font-black text-xl mb-4 flex items-center">5/17 <span class="text-sm font-bold text-gray-400 ml-2">韓服、市場、烤肉</span></h3>
+                    <div class="timeline-container">
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">10:00 - 11:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">出發前往 景福宮</div>
+                            </div>
+                        </div>
+                         <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-orange-400 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-orange-500 mb-1">11:00 - 12:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">午餐：人生雞湯</div>
+                                <div class="text-xs text-gray-500 mt-1">景福宮旁必吃的蔘雞湯。</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">12:00 - 14:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">廣藏市場</div>
+                                <div class="text-xs text-gray-500 mt-1">吃綠豆煎餅、生拌牛肉、買棉被！</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-blue-600 mb-1">15:00 - 19:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">弘大行程</div>
+                                <div class="text-xs text-gray-500 mt-1 space-y-1">
+                                    <p>• 14:00 返回弘大</p>
+                                    <p>• 15:00 弘大拍韓系證件照 (必備體驗！)</p>
+                                    <p>• 15:30 自由活動時間</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 border-l-2 border-transparent">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-orange-500 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-orange-600 mb-1">19:30 - 24:00</div>
+                            <div class="card !mb-0 border-l-4 border-orange-500">
+                                <div class="font-bold text-slate-800">晚餐：小豬存錢筒</div>
+                                <div class="text-xs text-gray-500 mt-1">
+                                    <p>• 超人氣石頭烤肉！吃飽繼續逛弘大商圈。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="d4" class="day-container fade-in">
+                    <h3 class="font-black text-xl mb-4 flex items-center">5/18 <span class="text-sm font-bold text-gray-400 ml-2">滿載而歸</span></h3>
+                    <div class="timeline-container">
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">10:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">抵達 金浦機場</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 pb-6 border-l-2 border-slate-200">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-200 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-primary mb-1">11:20 - 13:00</div>
+                            <div class="card !mb-0">
+                                <div class="font-bold text-slate-800">在天上飛</div>
+                            </div>
+                        </div>
+                        <div class="relative pl-6 border-l-2 border-transparent">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-green-500 border-4 border-white"></div>
+                            <div class="text-xs font-bold text-green-600 mb-1">13:00</div>
+                            <div class="card !mb-0 bg-green-50 border-green-100">
+                                <div class="font-bold text-green-800"><i class="fas fa-home mr-1"></i>到家了</div>
+                                <div class="text-xs text-green-700 mt-1">整理戰利品與照片。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="view-food" class="view-section hidden">
+            <div class="bg-orange-50 p-4 rounded-2xl mb-6 flex gap-4 items-center border border-orange-100">
+                <i class="fas fa-fire text-3xl text-orange-500"></i>
+                <div>
+                    <h3 class="font-bold text-orange-800 text-sm">首爾必吃清單</h3>
+                    <p class="text-[10px] text-orange-600">這次安排了烤牛、烤豬、蔘雞湯、炸雞與小吃，完美涵蓋精華！</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-3" id="food-grid"></div>
+        </div>
+
+        <div id="view-hotel" class="view-section hidden">
+            <div class="space-y-4">
+                <div class="card border-l-4 border-blue-500">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <div class="font-bold text-lg text-slate-800">弘大 L7 飯店</div>
+                            <div class="text-[10px] text-gray-500">L7 Hongdae by LOTTE</div>
+                        </div>
+                        <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded font-bold">3 Nights</span>
+                    </div>
+                    <div class="text-xs text-gray-600 space-y-2 border-t border-slate-100 pt-2 mt-2">
+                        <p><i class="fas fa-map-marker-alt text-gray-400 w-4"></i> 位於弘大商圈核心，地鐵站出來就到，戰略位置極佳。</p>
+                        <p><i class="fas fa-shopping-bag text-gray-400 w-4"></i> 逛街買累了可以隨時把戰利品拿回房間放，繼續下半場！</p>
+                    </div>
+                    <div class="mt-3">
+                        <a href="https://goo.gl/maps/search?q=L7+Hongdae+Seoul" target="_blank" class="block w-full text-center bg-blue-600 text-white text-xs font-bold py-2 rounded-xl active:bg-blue-700 transition">
+                            開啟 Google Maps 導航
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <nav class="fixed bottom-0 w-full bg-white/95 backdrop-blur-md border-t border-slate-200 pb-safe z-50 shadow-nav h-[65px]">
+        <div class="grid grid-cols-4 h-full max-w-3xl mx-auto">
+            <button onclick="switchView('overview')" class="nav-item active" id="nav-overview">
+                <i class="fas fa-compass nav-icon"></i>
+                <span class="nav-label">總覽</span>
+            </button>
+            <button onclick="switchView('itinerary')" class="nav-item" id="nav-itinerary">
+                <i class="fas fa-calendar-alt nav-icon"></i>
+                <span class="nav-label">行程</span>
+            </button>
+            <button onclick="switchView('food')" class="nav-item" id="nav-food">
+                <i class="fas fa-utensils nav-icon"></i>
+                <span class="nav-label">美食</span>
+            </button>
+            <button onclick="switchView('hotel')" class="nav-item" id="nav-hotel">
+                <i class="fas fa-bed nav-icon"></i>
+                <span class="nav-label">住宿</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // Data for Food
+        const foodData = [
+            { name: "小豬存錢筒", tag: "Day 3 晚餐", type: "石頭烤肉", loc: "弘大 (14:00~02:00)", query: "小豬存錢筒 弘大" },
+            { name: "橋村炸雞", tag: "Day 1 宵夜", type: "韓式炸雞", loc: "弘大 (12:00~01:00)", query: "橋村炸雞 弘大" },
+            { name: "弘大麻浦牛小城", tag: "Day 1 晚餐", type: "烤牛肉", loc: "弘大", query: "弘大麻浦牛小城" },
+            { name: "弘大豬肉湯飯", tag: "Day 2 晚餐", type: "湯飯", loc: "弘大", query: "弘大 豬肉湯飯" },
+            { name: "人生雞湯 (土俗村)", tag: "Day 3 午餐", type: "蔘雞湯", loc: "景福宮", query: "土俗村蔘雞湯 景福宮" },
+            { name: "廣藏市場小吃", tag: "Day 3 下午", type: "傳統小吃", loc: "鐘路5街", query: "廣藏市場" },
+            { name: "School Food", tag: "Day 2 午餐", type: "輕食/飯捲", loc: "樂天世界內", query: "School Food Lotte World" },
+        ];
+
+        // Logic
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            // Show selected view
+            document.getElementById('view-' + viewId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'auto' });
+
+            // Update Nav State
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('nav-' + viewId).classList.add('active');
+
+            if (viewId === 'overview') renderChart();
+            if (viewId === 'food') renderFood();
+        }
+
+        function scrollToDay(dayId) {
+            const el = document.getElementById(dayId);
+            const headerOffset = 110;
+            const elementPosition = el.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+            
+            // Update button styles
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.classList.remove('bg-secondary', 'text-white', 'shadow-lg');
+                btn.classList.add('bg-white', 'text-slate-500', 'shadow-sm', 'border-slate-200');
+            });
+            event.target.classList.remove('bg-white', 'text-slate-500', 'shadow-sm', 'border-slate-200');
+            event.target.classList.add('bg-secondary', 'text-white', 'shadow-lg');
+        }
+
+        let tripChart = null;
+        function renderChart() {
+            const ctx = document.getElementById('tripChart').getContext('2d');
+            if (tripChart) return;
+            tripChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['逛街血拼', '楓之谷/樂天世界', '美食吃貨', '交通移動'],
+                    datasets: [{
+                        data: [35, 30, 20, 15],
+                        backgroundColor: ['#1E3A8A', '#F97316', '#FACC15', '#94A3B8'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } } } 
+                }
+            });
+        }
+
+        function renderFood() {
+            const grid = document.getElementById('food-grid');
+            if (grid.innerHTML !== "") return;
+            
+            foodData.forEach(item => {
+                let badgeColor = item.type.includes('烤') || item.type.includes('炸') ? 'bg-orange-50 text-orange-600' : 'bg-blue-50 text-blue-600';
+                grid.innerHTML += `
+                    <div class="card flex justify-between items-center !mb-0 cursor-pointer" onclick="window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.query)}')">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="font-bold text-slate-800">${item.name}</span>
+                                <span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${badgeColor}">${item.type}</span>
+                            </div>
+                            <div class="text-xs text-gray-500 flex items-center gap-2">
+                                <span><i class="fas fa-map-marker-alt text-gray-300 w-3"></i> ${item.loc}</span>
+                                <span class="bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded text-[10px] font-bold">${item.tag}</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 w-8 h-8 rounded-full flex items-center justify-center">
+                            <i class="fas fa-chevron-right text-gray-300 text-[10px]"></i>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Init
+        window.onload = function() {
+            renderChart();
+        }
+    </script>
+</body>
+</html>
