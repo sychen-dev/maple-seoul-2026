@@ -69,15 +69,13 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Pure CSS Interactive Map Area (No Images!) */
+        /* 絕美影像地圖區塊 */
         .map-container { 
             position: relative; width: 100%; aspect-ratio: 16/11; border-radius: 1.5rem; 
-            background-color: #1E293B; border: 4px solid #fff; box-shadow: inset 0 0 20px rgba(0,0,0,0.3); overflow: hidden;
+            background-color: #1E293B; border: 4px solid #fff; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); overflow: hidden;
         }
-        .map-grid {
-            position: absolute; inset: 0;
-            background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
+        .map-image {
+            width: 100%; height: 100%; object-fit: cover; opacity: 0.9;
         }
         .map-point {
             @apply absolute w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-white text-white text-sm font-black transition-all duration-300 cursor-pointer backdrop-blur-md bg-maple/90 z-30;
@@ -126,7 +124,7 @@
                     <p class="text-slate-400 text-[10px] font-bold tracking-widest mb-1 uppercase">Mission Base</p>
                     <h2 class="text-3xl font-black mb-6">Hongdae<br>L7 Hotel</h2>
                     <div class="flex gap-4">
-                        <div class="bg-white/10 rounded-2xl p-3 backdrop-blur-md border border-white/5 flex-1 cursor-pointer active:scale-95 transition" onclick="window.open('https://www.google.com/maps/search/?api=1&query=L7+Hongdae+Hotel+Seoul')">
+                        <div class="bg-white/10 rounded-2xl p-3 backdrop-blur-md border border-white/5 flex-1 cursor-pointer active:scale-95 transition" onclick="window.open('https://goo.gl/maps/search?q=L7+Hongdae')">
                             <p class="text-[10px] text-slate-400 font-bold">ADDRESS <i class="fas fa-external-link-alt text-[8px]"></i></p>
                             <p class="text-sm font-bold mt-0.5">弘大站 1號出口</p>
                         </div>
@@ -153,7 +151,7 @@
                     </div>
                     <div>
                         <p class="font-bold text-sm">樂園地圖</p>
-                        <p class="text-[10px] text-slate-400 font-bold">純CSS繪製版</p>
+                        <p class="text-[10px] text-slate-400 font-bold">冒險攻略路線</p>
                     </div>
                 </div>
 
@@ -190,8 +188,8 @@
                             <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-white border-4 border-slate-300 flex items-center justify-center shadow-sm z-10"></div>
                             <p class="text-xs font-bold text-slate-400 mb-1">12:30 - 18:00</p>
                             <div class="bento-card !p-4 !rounded-2xl">
-                                <h4 class="font-bold text-slate-800">飛行與入境</h4>
-                                <p class="text-xs text-slate-500 mt-1">松山出發 (14:00)。抵達金浦機場後前往 L7 飯店 Check-in。</p>
+                                <h4 class="font-bold text-slate-800">松山出發 ➔ 金浦入境</h4>
+                                <p class="text-xs text-slate-500 mt-1">TSA (14:00) ➔ GMP (17:25)。入境後前往弘大 L7 飯店 Check-in。</p>
                             </div>
                         </div>
                         <div class="relative pl-6 pb-2 last-item">
@@ -215,7 +213,7 @@
                         <div class="relative pl-6 pb-2 last-item">
                             <div class="timeline-line"></div>
                             <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-white border-4 border-maple flex items-center justify-center shadow-sm z-10 animate-pulse"></div>
-                            <p class="text-xs font-bold text-maple mb-1">10:00 - 18:00</p>
+                            <p class="text-xs font-bold text-maple mb-1">10:00 - 18:00 (週六戰役)</p>
                             <div class="bento-card !p-4 !rounded-2xl bg-orange-100 border-orange-200">
                                 <h4 class="font-bold text-orange-950"><i class="fab fa-canadian-maple-leaf mr-1"></i> 樂天世界 x 楓之谷 Adventure</h4>
                                 <p class="text-xs text-orange-800 mt-1">室內探險世界 + 室外魔幻島。三個核心園區玩透透！午餐於園區內享用 School Food。</p>
@@ -245,7 +243,7 @@
                             <p class="text-xs font-bold text-slate-500 mb-1">10:00 - 14:00</p>
                             <div class="bento-card !p-4 !rounded-2xl">
                                 <h4 class="font-bold text-slate-800">景福宮文化 ➔ 廣藏市場</h4>
-                                <p class="text-xs text-slate-500 mt-1">午餐：土俗村蔘雞湯。下午去廣藏市場吃綠豆煎餅、生拌牛肉、買棉被。</p>
+                                <p class="text-xs text-slate-500 mt-1">午餐：土俗村蔘雞湯。下午廣藏市場吃綠豆煎餅、生拌牛肉、買棉被。</p>
                             </div>
                         </div>
                         <div class="relative pl-6 pb-2 last-item">
@@ -298,22 +296,17 @@
             </div>
             
             <div class="bg-white rounded-[2rem] p-3 shadow-sm border border-slate-100 mb-10">
-                <p class="text-[10px] text-slate-400 mb-2.5 ml-2"><i class="fas fa-magic mr-1"></i>此地圖由純 CSS 繪製，永不破圖。點擊圓點查看攻略。</p>
+                <p class="text-[10px] text-slate-400 mb-2.5 ml-2">
+                    <i class="fas fa-image mr-1"></i>為呈現最棒的 UI 體驗，此為高畫質預設圖。<br>
+                    <span class="font-bold text-maple">請將程式碼 img 的 src 替換為您的楓之谷地圖連結！</span>
+                </p>
                 
                 <div class="map-container">
-                    <div class="map-grid"></div>
+                    <img src="https://images.unsplash.com/photo-1549448837-f0c2ff14ec7a?q=80&w=800&auto=format&fit=crop" alt="Theme Park Map Placeholder" class="map-image">
                     
-                    <div class="absolute top-[10%] left-[10%] w-[55%] h-[80%] bg-blue-500/20 border border-blue-400/30 rounded-[3rem] backdrop-blur-sm"></div>
-                    <div class="absolute top-[15%] left-[15%] text-blue-300/60 text-xs font-bold tracking-widest pointer-events-none">INDOOR ADVENTURE</div>
-                    
-                    <div class="absolute top-[25%] right-[5%] w-[35%] h-[50%] bg-pink-500/20 border border-pink-400/30 rounded-full backdrop-blur-sm"></div>
-                    <div class="absolute top-[35%] right-[8%] text-pink-300/60 text-xs font-bold tracking-widest pointer-events-none text-center leading-tight">MAGIC<br>ISLAND</div>
-                    
-                    <div class="absolute top-[45%] left-[60%] w-[10%] h-[10%] bg-white/10 border-y border-white/20 transform rotate-12"></div>
-
-                    <div class="map-point active" style="top: 35%; left: 30%;" onclick="showMapTip('p1', this)">1</div>
-                    <div class="map-point" style="top: 65%; left: 45%;" onclick="showMapTip('p2', this)">2</div>
-                    <div class="map-point" style="top: 50%; left: 82%;" onclick="showMapTip('p3', this)">3</div>
+                    <div class="map-point active" style="top: 30%; left: 35%;" onclick="showMapTip('p1', this)">1</div>
+                    <div class="map-point" style="top: 50%; left: 60%;" onclick="showMapTip('p2', this)">2</div>
+                    <div class="map-point" style="top: 75%; left: 50%;" onclick="showMapTip('p3', this)">3</div>
                 </div>
 
                 <div class="mt-4 bg-orange-50 text-seoul text-sm p-4 rounded-2xl border border-orange-100 min-h-[90px] transition-all duration-300" id="map-tip">
@@ -417,16 +410,10 @@
         </div>
 
         <div id="view-hotel" class="view-section hidden">
-            <h2 class="font-black text-2xl mb-6 text-seoul">住宿</h2>
-            <div class="card border-l-4 border-l-blue-500 !mb-0 cursor-pointer active:scale-95 transition-transform" onclick="window.open('https://www.google.com/maps/search/?api=1&query=L7+Hongdae+Hotel+Seoul')">
-                <div class="flex justify-between items-start mb-2">
-                    <div>
-                        <div class="font-bold text-lg text-slate-800">弘大 L7 飯店 (L7 Hongdae)</div>
-                        <div class="text-[10px] text-gray-500 mt-0.5">點擊開啟 Google Maps 導航。</div>
-                    </div>
-                    <span class="text-[10px] bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full font-black">3 Nights</span>
-                </div>
-            </div>
+            <h2 class="font-black text-2xl mb-6 text-seoul flex items-center">
+                <i class="fas fa-hotel text-blue-500 mr-2"></i>住宿營地
+            </h2>
+            <div class="grid grid-cols-1 gap-3" id="hotel-grid"></div>
         </div>
 
     </main>
@@ -465,7 +452,7 @@
     </nav>
 
     <script>
-        // Corrected URL Builder
+        // Dynamic URL Builder (Google Maps Search API)
         const buildMapUrl = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
         // Food Data
@@ -476,6 +463,11 @@
             { name: "土俗村蔘雞湯", tag: "Day 3 景福宮旁", icon: "fa-bone", color: "text-stone-600", bg: "bg-stone-100", query: "土俗村蔘雞湯" },
             { name: "小豬存錢筒", tag: "Day 3 晚餐石頭烤肉", icon: "fa-fire", color: "text-orange-600", bg: "bg-orange-50", query: "小豬存錢筒 弘大" },
             { name: "廣藏市場", tag: "Day 3 下午吃煎餅", icon: "fa-store", color: "text-blue-600", bg: "bg-blue-50", query: "廣藏市場" },
+        ];
+
+        // Hotel Data (Using exact same structure as Food Data for visual consistency)
+        const hotelData = [
+            { name: "L7 Hongdae 弘大 L7 飯店", tag: "戰略位置極佳", duration: "3 Nights", icon: "fa-bed", color: "text-blue-600", bg: "bg-blue-50", query: "L7 Hongdae" }
         ];
 
         // Core View Switcher
@@ -495,6 +487,7 @@
 
             if (viewId === 'overview') renderChart();
             if (viewId === 'food') renderFood();
+            if (viewId === 'hotel') renderHotel();
         }
 
         // Horizontal Day Tab Switcher
@@ -511,7 +504,7 @@
             event.currentTarget.className = 'day-btn active snap-center shrink-0 bg-seoul text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-lg transition-all transform scale-105';
         }
 
-        // CSS Interactive Map Logic
+        // Image Map Logic
         function showMapTip(pointId, el) {
             document.querySelectorAll('.map-point').forEach(p => p.classList.remove('active'));
             el.classList.add('active');
@@ -551,7 +544,7 @@
             });
         }
 
-        // Food List Renderer
+        // Food Grid Renderer
         function renderFood() {
             const grid = document.getElementById('food-grid');
             if (grid.innerHTML !== "") return;
@@ -560,7 +553,7 @@
                 grid.innerHTML += `
                     <div class="bento-card !p-4 flex justify-between items-center cursor-pointer group" onclick="window.open(buildMapUrl('${item.query}'))">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-2xl ${item.bg} ${item.color} flex items-center justify-center text-xl group-active:scale-95 transition-transform shadow-inner">
+                            <div class="w-12 h-12 rounded-2xl ${item.bg} ${item.color} flex items-center justify-center text-xl group-active:scale-95 transition-transform shadow-inner shrink-0">
                                 <i class="fas ${item.icon}"></i>
                             </div>
                             <div>
@@ -568,13 +561,41 @@
                                 <p class="text-[10px] font-bold text-slate-400 mt-0.5"><i class="fas fa-map-marker-alt mr-1"></i>${item.tag}</p>
                             </div>
                         </div>
-                        <div class="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center text-slate-300 hover:bg-slate-50 transition-colors hover:text-blue-500">
+                        <div class="w-8 h-8 shrink-0 rounded-full border border-slate-100 flex items-center justify-center text-slate-300 hover:bg-slate-50 transition-colors hover:text-blue-500">
                             <i class="fas fa-location-arrow text-[10px]"></i>
                         </div>
                     </div>`;
             });
         }
 
+        // Hotel Grid Renderer (Shares the exact aesthetic of Food Grid)
+        function renderHotel() {
+            const grid = document.getElementById('hotel-grid');
+            if (grid.innerHTML !== "") return;
+            
+            hotelData.forEach(item => {
+                grid.innerHTML += `
+                    <div class="bento-card !p-4 flex flex-col justify-between cursor-pointer group" onclick="window.open(buildMapUrl('${item.query}'))">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="w-12 h-12 rounded-2xl ${item.bg} ${item.color} flex items-center justify-center text-xl group-active:scale-95 transition-transform shadow-inner shrink-0">
+                                <i class="fas ${item.icon}"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-800 leading-tight">${item.name}</h4>
+                                <p class="text-[10px] font-bold text-slate-400 mt-1"><i class="fas fa-map-marker-alt mr-1"></i>${item.tag}</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center border-t border-slate-100 pt-3">
+                            <span class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-1 rounded-full">${item.duration}</span>
+                            <div class="flex items-center gap-1 text-[10px] text-blue-500 font-bold hover:text-blue-700 transition">
+                                一鍵導航 <i class="fas fa-arrow-right ml-1"></i>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Initialize
         window.onload = function() { renderChart(); }
     </script>
 </body>
